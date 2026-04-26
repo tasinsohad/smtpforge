@@ -5,6 +5,8 @@ import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { nitro } from "nitro/vite";
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig({
   plugins: [
     tsConfigPaths(),
@@ -12,11 +14,13 @@ export default defineConfig({
     // causing EPERM and "hot" duplicate declaration errors.
     // Route tree is manually maintained in src/routeTree.gen.ts
     tanstackStart(),
-    nitro({
-      preset: "vercel",
-    }),
     react(),
     tailwindcss(),
+    cloudflare({
+      viteEnvironment: {
+        name: "ssr"
+      }
+    }),
   ],
   server: {
     hmr: {
